@@ -1,65 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blogs — Math for All Souls</title>
-  <style>
-    :root { --bg:#f7f7fb; --fg:#222; --brand:#1f2937; }
-    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto; background:var(--bg); color:var(--fg); }
-    header { background:linear-gradient(180deg, var(--brand), #374151); color:#fff; padding:1.5rem 1rem; text-align:center; }
-    main { max-width:900px; margin:2rem auto; padding:0 1rem; }
-    .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:1rem 1.25rem; box-shadow:0 8px 24px rgba(0,0,0,.06); }
-    li { margin:.5rem 0; }
-    .muted { color:#6b7280; }
-    nav { text-align:center; margin-top:1rem; }
-    nav a { margin:0 .5rem; text-decoration:none; color:#1f2937; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blogs — Math for All Souls</title>
+<style>
+  :root{--bg:#f7f7fb;--fg:#222;--brand:#1f2937;--muted:#6b7280;--accent:#2563eb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto;background:var(--bg);color:var(--fg)}
+  header{background:linear-gradient(180deg,var(--brand),#374151);color:#fff;padding:2rem 1rem;text-align:center}
+  header h1{margin:0 0 .35rem 0;font-size:2.2rem;text-shadow:0 2px 10px rgba(0,0,0,.25)}
+  header p{margin:.2rem 0;color:#e5e7eb}
+  nav a{color:#fff;text-decoration:none;margin:0 .6rem}
+  main{max-width:1100px;margin:2rem auto;padding:0 1rem}
+  .controls{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+  .search{flex:1;min-width:220px}
+  input[type="search"]{width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:.6rem}
+  .tags{display:flex;gap:.5rem;flex-wrap:wrap}
+  .chip{padding:.35rem .6rem;border:1px solid #cbd5e1;border-radius:999px;font-size:.9rem;background:#fff;cursor:pointer}
+  .chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem}
+  .card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+  .thumb{height:160px;background:#eef2ff;display:block;object-fit:cover;width:100%}
+  .card-body{padding:1rem 1rem 1.1rem}
+  .title{margin:.2rem 0;font-weight:700;font-size:1.05rem}
+  .meta{color:var(--muted);font-size:.9rem;margin-bottom:.5rem}
+  .summary{color:#374151;font-size:.95rem;min-height:3.6em}
+  .badge{display:inline-block;margin-right:.35rem;margin-top:.35rem;padding:.15rem .5rem;border-radius:.5rem;background:#f3f4f6;color:#374151;font-size:.8rem}
+  .actions{margin-top:.75rem}
+  .btn{display:inline-block;padding:.45rem .75rem;border:1px solid #cbd5e1;border-radius:.6rem;text-decoration:none}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  footer{text-align:center;color:var(--muted);margin:2rem 0 3rem}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Blogs</h1>
-    <p class="muted">Posts inside the <code>blog/</code> folder.</p>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="blogs.html">Blogs</a>
-      <a href="papers.html">Papers</a>
-    </nav>
-  </header>
+<header>
+  <h1>Blogs</h1>
+  <p>Posts inside the <code>blog/</code> folder.</p>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="blogs.html">Blogs</a>
+    <a href="papers.html">Papers</a>
+  </nav>
+</header>
 
-  <main>
-    <div class="card">
-      <h2>All Posts</h2>
-      <ul id="posts"><li class="muted">Loading…</li></ul>
+<main>
+  <div class="controls">
+    <div class="search">
+      <input id="q" type="search" placeholder="Search title, summary, or tags…" />
     </div>
-  </main>
+    <div class="tags" id="tagbar"></div>
+  </div>
 
-  <script>
-    const owner = "SamukthaV";
-    const repo  = "Math-For-All-Souls";
-    const branch = "main";
-    const api = `https://api.github.com/repos/${owner}/${repo}/contents/blog?ref=${branch}`;
-    const postsEl = document.getElementById("posts");
+  <div class="grid" id="grid"></div>
+  <p id="empty" style="display:none;color:#6b7280">No posts match your filters.</p>
+</main>
 
-    fetch(api).then(r=>r.json()).then(items=>{
-      postsEl.innerHTML = "";
-      const pages = (Array.isArray(items) ? items : []).filter(x => x.type==="file" && x.name.toLowerCase().endsWith(".html"));
-      if (pages.length === 0) {
-        postsEl.innerHTML = '<li class="muted">No posts yet. Create files inside the <code>blog/</code> folder (e.g., <code>embedding_space.html</code>).</li>';
-        return;
-      }
-      pages.sort((a,b)=> a.name.localeCompare(b.name));
-      pages.forEach(p=>{
-        const title = p.name.replace(/\.html$/i,"");
-        const url = `blog/${encodeURIComponent(p.name)}`;
-        const li = document.createElement("li");
-        li.innerHTML = `<a href="${url}">${title}</a>`;
-        postsEl.appendChild(li);
-      });
-    }).catch(err=>{
-      postsEl.innerHTML = '<li class="muted">Could not load posts automatically.</li>';
-      console.error(err);
+<footer>© 2025 Math for All Souls — Samuktha</footer>
+
+<script>
+/* === Config: owner/repo/branch for listing files === */
+const owner  = "SamukthaV";
+const repo   = "Math-For-All-Souls";
+const branch = "main";
+
+/* === Utilities === */
+const apiList = `https://api.github.com/repos/${owner}/${repo}/contents/blog?ref=${branch}`;
+
+function words(text){ return (text||"").trim().split(/\s+/).filter(Boolean).length; }
+function readMins(text){ const w = words(text); return Math.max(1, Math.round(w/220)); } // 220 wpm
+function firstSentence(text){
+  const t = (text||"").replace(/\s+/g," ").trim();
+  const m = t.match(/(.{40,200}?[\.\!\?])\s/); // 1st sentence between 40-200 chars
+  return (m?m[1]:t).slice(0,220);
+}
+function uniq(arr){ return [...new Set(arr)].sort((a,b)=>a.localeCompare(b)); }
+function niceDate(iso){
+  if(!iso) return "—";
+  const d = new Date(iso);
+  return isNaN(d) ? "—" : d.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"2-digit"});
+}
+
+/* === Load list of blog/*.html then fetch each file to extract metadata === */
+(async function init(){
+  const grid = document.getElementById("grid");
+  const empty = document.getElementById("empty");
+  const tagbar = document.getElementById("tagbar");
+  const q = document.getElementById("q");
+
+  let items = [];
+  try{
+    const res = await fetch(apiList);
+    const listing = await res.json();
+    const htmlFiles = (Array.isArray(listing)?listing:[]).filter(x => x.type==="file" && /\.html?$/i.test(x.name));
+
+    for (const f of htmlFiles){
+      const url = `blog/${encodeURIComponent(f.name)}`;
+      const html = await (await fetch(url)).text();
+      const doc = new DOMParser().parseFromString(html, "text/html");
+
+      const meta = (name, def="") => doc.querySelector(`meta[name="${name}"]`)?.content || def;
+
+      // Metadata from the post (with fallbacks)
+      const title   = meta("post:title", doc.querySelector("h1")?.textContent?.trim() || f.name.replace(/\.html?$/i,""));
+      const dateISO = meta("post:date", "");
+      const tagsStr = meta("post:tags","").trim();
+      const hero    = meta("post:hero","") || doc.querySelector("article img, img")?.getAttribute("src") || "";
+      const summary = meta("post:summary","") || firstSentence(doc.body?.textContent || "");
+
+      // Reading time from the article text
+      const textForReading = doc.querySelector("article")?.textContent || doc.body?.textContent || "";
+      const mins = readMins(textForReading);
+
+      // Normalize hero to an absolute URL
+      let heroAbs = "";
+      try { heroAbs = hero ? new URL(hero, url).href : ""; } catch(e){ heroAbs = ""; }
+
+      const tags = tagsStr ? tagsStr.split(",").map(s=>s.trim()).filter(Boolean) : [];
+      items.push({title, dateISO, tags, hero: heroAbs, url, summary, mins});
+    }
+  } catch(e){
+    console.error(e);
+  }
+
+  // Sort by date (desc), then title
+  items.sort((a,b)=> (b.dateISO||"").localeCompare(a.dateISO||"") || a.title.localeCompare(b.title));
+
+  // Tag bar
+  const allTags = uniq(items.flatMap(p=>p.tags));
+  const active = new Set();
+  function renderTagbar(){
+    tagbar.innerHTML = "";
+    if(allTags.length===0){ tagbar.style.display="none"; return; }
+    for (const t of allTags){
+      const btn = document.createElement("button");
+      btn.className = "chip" + (active.has(t) ? " active" : "");
+      btn.textContent = t;
+      btn.onclick = ()=>{ active.has(t) ? active.delete(t) : active.add(t); render(); };
+      tagbar.appendChild(btn);
+    }
+  }
+
+  function render(){
+    const query = q.value.trim().toLowerCase();
+    const filtered = items.filter(p=>{
+      const qmatch = !query ||
+        p.title.toLowerCase().includes(query) ||
+        p.summary.toLowerCase().includes(query) ||
+        p.tags.join(" ").toLowerCase().includes(query);
+      const tagmatch = active.size===0 || p.tags.some(t=>active.has(t));
+      return qmatch && tagmatch;
     });
-  </script>
+
+    grid.innerHTML = "";
+    empty.style.display = filtered.length ? "none" : "block";
+
+    for(const p of filtered){
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        ${p.hero ? `<img class="thumb" src="${p.hero}" alt="">` : `<div class="thumb"></div>`}
+        <div class="card-body">
+          <div class="title">${p.title}</div>
+          <div class="meta">${niceDate(p.dateISO)} • ${p.mins} min read${p.tags.length?` • ${p.tags.join(", ")}`:""}</div>
+          <div class="summary">${p.summary}</div>
+          <div class="actions"><a class="btn primary" href="${p.url}">Read</a></div>
+          ${p.tags.map(t=>`<span class="badge">${t}</span>`).join("")}
+        </div>
+      `;
+      grid.appendChild(card);
+    }
+  }
+
+  renderTagbar();
+  render();
+  q.addEventListener("input", render);
+})();
+</script>
 </body>
 </html>
