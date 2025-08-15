@@ -106,7 +106,6 @@ function niceDate(iso){
       const dateISO = meta("post:date", "");
       const tagsStr = meta("post:tags","").trim();
       const hero    = meta("post:hero","") || doc.querySelector("article img, img")?.getAttribute("src") || "";
-      const summary = meta("post:summary","") || firstSentence(doc.body?.textContent || "");
 
       // Reading time from the article text
       const textForReading = doc.querySelector("article")?.textContent || doc.body?.textContent || "";
