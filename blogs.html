@@ -45,7 +45,7 @@
       postsEl.innerHTML = "";
       const pages = (Array.isArray(items) ? items : []).filter(x => x.type==="file" && x.name.toLowerCase().endsWith(".html"));
       if (pages.length === 0) {
-        postsEl.innerHTML = '<li class="muted">No posts yet. Create files inside the <code>blog/</code> folder (e.g., <code>first-post.html</code>).</li>';
+        postsEl.innerHTML = '<li class="muted">No posts yet. Create files inside the <code>blog/</code> folder (e.g., <code>embedding_space.html</code>).</li>';
         return;
       }
       pages.sort((a,b)=> a.name.localeCompare(b.name));

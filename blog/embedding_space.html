@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delving Deeper into the Spaces of Embeddings — Math for All Souls</title>
+  <meta name="description" content="A simple, math-first look at embeddings and semantic meaning." />
+  <!-- MathJax for LaTeX ($...$) -->
+  <script>
+    window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };
+  </script>
+  <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root { --bg:#f7f7fb; --fg:#222; --brand:#1f2937; --muted:#6b7280; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell;background:var(--bg);color:var(--fg)}
+    header{background:linear-gradient(180deg,var(--brand),#374151);color:#fff;padding:2rem 1rem}
+    header .wrap{max-width:960px;margin:0 auto}
+    nav a{color:#fff;text-decoration:none;margin-right:1rem}
+    main{max-width:800px;margin:2rem auto;padding:0 1rem;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+    article{padding:1.25rem 1.25rem 2rem;line-height:1.65}
+    h1{margin:.2rem 0 0;font-size:1.9rem}
+    .meta{color:var(--muted);margin-top:.35rem}
+    blockquote{border-left:4px solid #2563eb;background:#f0f6ff;padding:.6rem 1rem;border-radius:6px}
+    img{max-width:100%;height:auto;border-radius:10px;border:1px solid #e5e7eb}
+    figure{margin:1.25rem 0;text-align:center}
+    figcaption{font-size:.9rem;color:#555;margin-top:.45rem}
+    .hr{height:1px;background:#e5e7eb;margin:1.25rem 0}
+    a.back{display:inline-block;margin:1rem 0}
+    code,pre{background:#f3f4f6;border-radius:6px}
+    pre{padding:1rem;overflow:auto}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav><a href="../index.html">Home</a> <a href="../blogs.html">Blogs</a> <a href="../papers.html">Papers</a></nav>
+      <h1>Delving Deeper into the Spaces of Embeddings</h1>
+      <p class="meta">By <strong>Samuktha</strong> • Math for All Souls</p>
+    </div>
+  </header>
+
+  <main>
+    <article>
+      <blockquote><em>Math is the key; Math is rigour — unknown author</em></blockquote>
+
+      <p>Embeddings are indispensable in current Large Language Models because they capture meaningful relationships between data, all backed by solid mathematical principles. In this article, we’ll take a closer look at the math behind them in a simple and easy-to-understand way.</p>
+
+      <h2>What do we mean by “semantic”?</h2>
+      <p><strong>Semantic</strong> refers to the meaning or context behind the data rather than the exact words. Consider the two queries:</p>
+      <ul>
+        <li>“Best AI models for image classification”</li>
+        <li>“Top neural networks for classifying images”</li>
+      </ul>
+      <p>Different words, same intent. With semantic understanding, a search engine treats them as the same kind of information need.</p>
+
+      <h2>What is an embedding?</h2>
+      <p>An <strong>embedding</strong> is a vector representation of a word or sentence. Think of each example as a vector $x \\in \\mathbb{R}^{N}$. For many models, $N=768$, so every token/sentence maps to a 768-dimensional point in real space.</p>
+
+      <p>Because this is a Euclidean space, we can define a norm and the induced distance. A common similarity measure is the <em>cosine similarity</em>, which looks at the angle between two vectors. (For more on vector spaces and norms, see your article: <em>Looking More into Spaces, Subspaces, Norm — a review</em>.)</p>
+
+      <p>The locations of embeddings in the vector space carry <em>semantic</em> relations: similar meanings lie nearer; different meanings lie farther apart.</p>
+
+      <!-- FIGURE 1: semantic relations in R^2 -->
+      <figure>
+        <img src="../assets/blog/embedding_space/hero.webp" alt="Points in 2D embedding space forming clusters for related words" />
+        <figcaption>Fig. Depicting the semantic relation of embeddings in $\\mathbb{R}^2$.</figcaption>
+      </figure>
+
+      <p>As in the sketch above, words like <em>dog, puppy, canine, bite</em> cluster closely, while clusters such as <em>king, queen</em> and <em>jack, ace, spade</em> sit apart.</p>
+
+
+
+      <h2>How are these embeddings generated?</h2>
+      <p>Modern embeddings come from <strong>Transformers</strong>. They do not encode a word in isolation; attention layers let each token “see” other tokens in the sentence and capture context, so the same word can map to different vectors depending on usage.</p>
+
+      <p>These networks are often tuned with <strong>contrastive learning</strong>: examples that should be similar (positive pairs) are pushed to have similar embeddings, while dissimilar examples (negative pairs) are pushed apart. Losses like triplet loss or InfoNCE make the geometry reflect meaning.</p>
+
+      <div class="hr"></div>
+      <p><em>Questions or suggestions? Write to <a href="mailto:mathforallsouls@gmail.com">mathforallsouls@gmail.com</a>.</em></p>
+
+      <a class="back" href="../blogs.html">← Back to Blogs</a>
+    </article>
+  </main>
+</body>
+</html>
