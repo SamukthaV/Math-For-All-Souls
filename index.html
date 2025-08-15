@@ -6,7 +6,7 @@
   <title>Math for All Souls — by Samuktha</title>
   <meta name="description" content="Blogs and research PDFs in mathematics for AI learners and scholars." />
   <style>
-    :root { --bg:#f7f7fb; --fg:#222; --brand:#1f2937; --brand2:#374151; --accent:#2563eb; }
+    :root { --bg:#f7f7fb; --fg:#222; --brand:#1f2937; --brand2:#374151; --accent:#2563eb; --muted:#6b7280; }
     * { box-sizing: border-box; }
     body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial; background:var(--bg); color:var(--fg); }
     header { background:linear-gradient(180deg, var(--brand), var(--brand2)); color:#fff; padding:2rem 1rem; text-align:center; }
@@ -16,7 +16,6 @@
     nav a:hover { background:rgba(255,255,255,.12); }
     main { max-width:1000px; margin:2rem auto; padding:0 1rem; }
     .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.06); padding:1rem 1.25rem; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:1rem; }
     .muted { color:#6b7280; }
     .btn { display:inline-block; padding:.55rem .9rem; border-radius:.55rem; border:1px solid #d1d5db; text-decoration:none; }
     .btn.primary { background:var(--accent); color:#fff; border-color:transparent; }
@@ -26,57 +25,48 @@
     .pdf-embed { width:100%; height:520px; border:1px solid #e5e7eb; border-radius:10px; }
     code { background:#f3f4f6; padding:.1rem .3rem; border-radius:.25rem; }
     .section { margin-top:2rem; }
+
+    /* Hero */
+    .hero-header { text-align:center; padding:3rem 1rem; background: linear-gradient(135deg,#f0f4f8,#ffffff); border-bottom:3px solid #e5e7eb; position:relative; }
+    .hero-header h1 { font-size: 2.8rem; font-weight:700; margin-bottom:1rem; color:#1f2937; letter-spacing:1px; }
+    .hero-header .highlight { background:linear-gradient(90deg,#6366f1,#ec4899); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .hero-header .quote { font-size:1.2rem; font-style:italic; color:#4b5563; max-width:700px; margin:auto; line-height:1.6; }
+    .hero-header .author { display:block; margin-top:.3rem; font-size:1rem; color:#6b7280; }
+
+    /* Welcome */
+    .welcome-card { background: linear-gradient(135deg, #fdfbfb, #ebedee); padding: 2rem; border-radius: 1.5rem; box-shadow: 0 8px 25px rgba(0,0,0,0.1); text-align:center; animation: fadeInUp 1s ease-out; }
+    .welcome-card h2 { font-size:2.2rem; color:#1f2937; margin-bottom:1rem; position:relative; }
+    .welcome-card h2::after { content:''; position:absolute; left:50%; bottom:-8px; transform:translateX(-50%); width:60px; height:3px; background:linear-gradient(90deg,#6366f1,#ec4899); border-radius:2px; }
+    .welcome-card p { font-size:1.15rem; line-height:1.8; color:#374151; max-width:700px; margin:auto; }
+    @keyframes fadeInUp { from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:translateY(0)} }
+
+    /* What’s New + Upcoming layout */
+    .two-col { display:grid; grid-template-columns: 2fr 1fr; gap:1rem; }
+    @media (max-width: 900px){ .two-col { grid-template-columns: 1fr; } }
+
+    /* New section styles */
+    .section-title { display:flex; align-items:baseline; gap:.6rem; margin-bottom:.6rem; }
+    .pill { font-size:.75rem; padding:.25rem .5rem; border-radius:999px; background:#eef2ff; color:#3730a3; border:1px solid #c7d2fe; }
+    .list { list-style:none; padding-left:0; margin:0; }
+    .list li { display:flex; align-items:center; gap:.6rem; padding:.45rem 0; border-bottom:1px dashed #e5e7eb; }
+    .list li:last-child { border-bottom:none; }
+    .dot { width:8px; height:8px; background:#9ca3af; border-radius:50%; }
+    .title-link { text-decoration:none; color:#1f2937; }
+    .meta-line { color:var(--muted); font-size:.9rem; }
+    .badge-new { background:#d1fae5; color:#065f46; border:1px solid #a7f3d0; padding:.1rem .4rem; border-radius:.5rem; font-size:.75rem; }
+
+    /* Upcoming card */
+    .upcoming h3 { margin:.2rem 0 .4rem; }
+    .upcoming .when { color:var(--muted); font-size:.9rem; margin-bottom:.3rem; }
+    .upcoming .teaser { color:#374151; }
   </style>
-<header class="hero-header">
-  <h1>Decoding the <span class="highlight">I</span> in <span class="highlight">AI</span></h1>
-  <p class="quote">“A duty which has become a desire will ultimately become a delight.”  
-    <span class="author">— George Gissing</span>
-  </p>
-</header>
+</head>
 
-<style>
-  .hero-header {
-    text-align: center;
-    padding: 3rem 1rem;
-    background: linear-gradient(135deg, #f0f4f8, #ffffff);
-    border-bottom: 3px solid #e5e7eb;
-    font-family: 'Poppins', sans-serif;
-    position: relative;
-  }
-
-  .hero-header h1 {
-    font-size: 2.8rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #1f2937;
-    letter-spacing: 1px;
-  }
-
-  .hero-header .highlight {
-    background: linear-gradient(90deg, #6366f1, #ec4899);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .hero-header .quote {
-    font-size: 1.2rem;
-    font-style: italic;
-    color: #4b5563;
-    max-width: 700px;
-    margin: auto;
-    line-height: 1.6;
-  }
-
-  .hero-header .author {
-    display: block;
-    margin-top: 0.3rem;
-    font-size: 1rem;
-    font-style: normal;
-    color: #6b7280;
-  }
-</style>
-
-
+<body>
+  <header class="hero-header">
+    <h1>Decoding the <span class="highlight">I</span> in <span class="highlight">AI</span></h1>
+    <p class="quote">“A duty which has become a desire will ultimately become a delight.” <span class="author">— George Gissing</span></p>
+  </header>
 
   <nav>
     <a href="#">Home</a>
@@ -89,67 +79,39 @@
   <main>
     <section class="card welcome-card">
       <h2>Hey, Welcome!</h2>
-      <p>
-        Whether you aspire to design intelligent systems, advance academic research or simply want to satisfy your intellectual curiosity <br>
-        This site is for you. Here, you'll find a collection of blogs and research PDFs <br>
-        Together, let us conquer the world of AI, one equation at a time.
-      </p>
+      <p>Whether you aspire to design intelligent systems, advance academic research or simply want to satisfy your intellectual curiosity — this site is for you. Here, you'll find a collection of blogs and research PDFs. Together, let us conquer the world of AI, one equation at a time.</p>
     </section>
 
-    <style>
-      .welcome-card {
-        background: linear-gradient(135deg, #fdfbfb, #ebedee);
-        padding: 2rem;
-        border-radius: 1.5rem;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        text-align: center;
-        font-family: 'Poppins', sans-serif;
-        animation: fadeInUp 1s ease-out;
-      }
+    <!-- What's New + Upcoming -->
+    <section class="two-col section">
+      <div class="card">
+        <div class="section-title">
+          <h2 style="margin:0">What’s New</h2>
+          <span class="pill">auto-updated</span>
+        </div>
 
-      .welcome-card h2 {
-        font-size: 2.2rem;
-        color: #1f2937;
-        margin-bottom: 1rem;
-        position: relative;
-      }
+        <h3 style="margin:.6rem 0 .2rem">Latest Blogs</h3>
+        <ul id="new-blogs" class="list"><li class="muted">Loading…</li></ul>
 
-      .welcome-card h2::after {
-        content: '';
-        position: absolute;
-        left: 50%;
-        bottom: -8px;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 3px;
-        background: linear-gradient(90deg, #6366f1, #ec4899);
-        border-radius: 2px;
-      }
+        <h3 style="margin:1rem 0 .2rem">Latest PDFs</h3>
+        <ul id="new-pdfs" class="list"><li class="muted">Loading…</li></ul>
+      </div>
 
-      .welcome-card p {
-        font-size: 1.15rem;
-        line-height: 1.8;
-        color: #374151;
-        max-width: 700px;
-        margin: auto;
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    </style>
+      <aside class="card upcoming">
+        <h2 style="margin-top:0">Upcoming</h2>
+        <h3 id="up-title">Next article</h3>
+        <div class="when" id="up-when"></div>
+        <p class="teaser" id="up-teaser"></p>
+        <p class="muted" style="margin-top:.6rem">Want to be notified? Email <a href="mailto:mathforallsouls@gmail.com">mathforallsouls@gmail.com</a>.</p>
+      </aside>
+    </section>
 
     <section id="author" class="card section">
       <h2>From the Author's desk</h2>
       <blockquote>
-        <p>Mathematics forms the bedrock of machine learning and artificial intelligence, yet many<br>aspiring learners often perceive it as a daunting hurdle.</p> <p>In the fast-evolving world of AI,<br>understanding the mathematical principles underlying algorithms is not just an advantage<br>but a necessity for pushing the boundaries of innovation and building solutions with rigor<br>and precision.</p><p>My hope is that this site not only strengthens your technical capabilities but<br>also inspires confidence in your ability to contribute to the transformative domain of AI.</p>
+        <p>Mathematics forms the bedrock of machine learning and artificial intelligence, yet many aspiring learners often perceive it as a daunting hurdle.</p>
+        <p>In the fast-evolving world of AI, understanding the mathematical principles underlying algorithms is not just an advantage but a necessity for pushing the boundaries of innovation and building solutions with rigor and precision.</p>
+        <p>My hope is that this site not only strengthens your technical capabilities but also inspires confidence in your ability to contribute to the transformative domain of AI.</p>
       </blockquote>
     </section>
 
@@ -167,11 +129,112 @@
       <h2>Contact</h2>
       <p>Mail: <a href="mailto:mathforallsouls@gmail.com">mathforallsouls@gmail.com</a></p>
     </section>
-
   </main>
 
-  <footer>
-    &copy; 2025 Math for All Souls — Samuktha.
-  </footer>
+  <footer>&copy; 2025 Math for All Souls — Samuktha.</footer>
+
+  <!-- Auto-update script -->
+  <script>
+    /* ==== EDIT THIS for your next article ==== */
+    const upcoming = {
+      title: "Linear Algebra Essentials for LLMs",
+      when: "ETA: Sep 2025",
+      teaser: "From vector spaces to eigenspectra — a crisp primer to read embeddings like a pro."
+    };
+    /* ==== Repo config (leave unless you rename) ==== */
+    const owner = "SamukthaV";
+    const repo  = "Math-For-All-Souls";
+    const branch = "main";
+    const NEW_WINDOW_DAYS = 14;
+
+    const blogDirAPI = `https://api.github.com/repos/${owner}/${repo}/contents/blog?ref=${branch}`;
+    const pdfDirAPI  = `https://api.github.com/repos/${owner}/${repo}/contents/pdfs?ref=${branch}`;
+
+    const $ = (sel) => document.querySelector(sel);
+    const daysAgo = (iso) => {
+      const t = new Date(iso).getTime();
+      return isNaN(t) ? Infinity : (Date.now() - t)/(1000*60*60*24);
+    };
+    const niceDate = (iso) => {
+      const d = new Date(iso);
+      return isNaN(d) ? "—" : d.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"2-digit"});
+    };
+
+    // Upcoming box
+    $("#up-title").textContent = upcoming.title;
+    $("#up-when").textContent  = upcoming.when;
+    $("#up-teaser").textContent = upcoming.teaser;
+
+    // Latest Blogs (reads meta from each blog/*.html)
+    (async function loadBlogs(){
+      const ul = $("#new-blogs");
+      try{
+        const listing = await (await fetch(blogDirAPI)).json();
+        const htmlFiles = (Array.isArray(listing)?listing:[]).filter(x=>x.type==="file" && /\.html?$/i.test(x.name));
+        const posts = [];
+        for (const f of htmlFiles){
+          const url = `blog/${encodeURIComponent(f.name)}`;
+          const html = await (await fetch(url)).text();
+          const doc  = new DOMParser().parseFromString(html, "text/html");
+          const meta = (n, d="") => doc.querySelector(`meta[name="${n}"]`)?.content || d;
+          const title = meta("post:title", doc.querySelector("h1")?.textContent?.trim() || f.name.replace(/\.html?$/i,""));
+          const dateISO = meta("post:date", "");
+          const mins = Math.max(1, Math.round(((doc.querySelector("article")?.textContent || doc.body?.textContent || "").trim().split(/\s+/).length)/220));
+          posts.push({title, dateISO, url, mins});
+        }
+        posts.sort((a,b)=> (b.dateISO||"").localeCompare(a.dateISO||"") || a.title.localeCompare(b.title));
+        ul.innerHTML = "";
+        posts.slice(0,3).forEach(p=>{
+          const li = document.createElement("li");
+          const isNew = daysAgo(p.dateISO) <= NEW_WINDOW_DAYS;
+          li.innerHTML =
+            `<span class="dot"></span>
+             <a class="title-link" href="${p.url}">${p.title}</a>
+             <span class="meta-line">• ${niceDate(p.dateISO)} • ${p.mins} min read</span>
+             ${isNew?'<span class="badge-new">NEW</span>':''}`;
+          ul.appendChild(li);
+        });
+        if (!ul.children.length) ul.innerHTML = '<li class="muted">No blog posts yet.</li>';
+      }catch(e){
+        console.error(e);
+        ul.innerHTML = '<li class="muted">Couldn’t load posts.</li>';
+      }
+    })();
+
+    // Latest PDFs (uses commits API to get last-updated date)
+    (async function loadPDFs(){
+      const ul = $("#new-pdfs");
+      try{
+        const listing = await (await fetch(pdfDirAPI)).json();
+        const pdfs = (Array.isArray(listing)?listing:[]).filter(x=>x.type==="file" && /\.pdf$/i.test(x.name));
+        // fetch last commit date for up to 8 PDFs to keep it light
+        const entries = await Promise.all(pdfs.slice(0,8).map(async f=>{
+          const commitAPI = `https://api.github.com/repos/${owner}/${repo}/commits?path=${encodeURIComponent('pdfs/'+f.name)}&per_page=1`;
+          let dateISO = "";
+          try {
+            const data = await (await fetch(commitAPI)).json();
+            dateISO = data?.[0]?.commit?.committer?.date || "";
+          } catch(_){}
+          return { name: f.name, href: `pdfs/${encodeURIComponent(f.name)}`, dateISO };
+        }));
+        entries.sort((a,b)=> (b.dateISO||"").localeCompare(a.dateISO||"") || a.name.localeCompare(b.name));
+        ul.innerHTML = "";
+        entries.slice(0,5).forEach(p=>{
+          const isNew = daysAgo(p.dateISO) <= NEW_WINDOW_DAYS;
+          const li = document.createElement("li");
+          li.innerHTML =
+            `<span class="dot"></span>
+             <a class="title-link" href="${p.href}" target="_blank" rel="noopener">${p.name}</a>
+             <span class="meta-line">• ${niceDate(p.dateISO)}</span>
+             ${isNew?'<span class="badge-new">NEW</span>':''}`;
+          ul.appendChild(li);
+        });
+        if (!ul.children.length) ul.innerHTML = '<li class="muted">No PDFs yet.</li>';
+      }catch(e){
+        console.error(e);
+        ul.innerHTML = '<li class="muted">Couldn’t load PDFs.</li>';
+      }
+    })();
+  </script>
 </body>
 </html>
