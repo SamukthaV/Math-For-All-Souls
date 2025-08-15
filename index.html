@@ -29,10 +29,66 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>Decoding the I in AI</h1>
-    <p class="muted">By <strong>Samuktha</strong> — sharing the fruit of knowledge with everyone</p>
-  </header>
+  <header class="hero-header">
+  <h1>Decoding the <span class="highlight">I</span> in <span class="highlight">AI</span></h1>
+  <p class="muted">
+    By <strong>Samyuktha</strong> — <span class="tagline">sharing the fruit of knowledge with everyone</span>
+  </p>
+</header>
+
+<style>
+  .hero-header {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: linear-gradient(135deg, #f0f4f8, #ffffff);
+    border-bottom: 3px solid #e5e7eb;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+  }
+
+  .hero-header h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+    letter-spacing: 1px;
+  }
+
+  .hero-header .highlight {
+    background: linear-gradient(90deg, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-header p {
+    font-size: 1.2rem;
+    color: #6b7280;
+    margin-top: 0;
+  }
+
+  .hero-header .tagline {
+    font-style: italic;
+    color: #4b5563;
+  }
+
+  /* Subtle animated underline for h1 */
+  .hero-header h1::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    margin: 0.5rem auto 0;
+    background: linear-gradient(90deg, #6366f1, #ec4899);
+    border-radius: 3px;
+    animation: pulse 2s infinite alternate;
+  }
+
+  @keyframes pulse {
+    from { width: 80px; opacity: 0.7; }
+    to { width: 120px; opacity: 1; }
+  }
+</style>
+
 
   <nav>
     <a href="#">Home</a>
@@ -124,16 +180,6 @@
       <p>Mail: <a href="mailto:mathforallsouls@gmail.com">mathforallsouls@gmail.com</a></p>
     </section>
 
-    <section class="section">
-      <div class="card">
-        <h2>How to add more PDFs</h2>
-        <ol>
-          <li>Put your PDF files inside the <code>pdfs/</code> folder.</li>
-          <li>Edit <code>index.html</code> and duplicate one of the list items under <em>Research PDFs</em> with your file name.</li>
-          <li>If you want an inline preview, change the <code>&lt;iframe src="..."&gt;</code> to your new file's path (e.g., <code>pdfs/my-paper.pdf</code>).</li>
-        </ol>
-      </div>
-    </section>
   </main>
 
   <footer>
