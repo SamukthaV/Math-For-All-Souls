@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Papers — Math for All Souls</title>
+  <style>
+    :root { --bg:#f7f7fb; --fg:#222; --brand:#1f2937; --accent:#2563eb; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell;
+           background:var(--bg); color:var(--fg); }
+    header { background:linear-gradient(180deg, var(--brand), #374151); color:#fff; padding:1.5rem 1rem; text-align:center; }
+    main { max-width:1000px; margin:2rem auto; padding:0 1rem; }
+    .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:1rem 1.25rem; box-shadow:0 8px 24px rgba(0,0,0,.06); }
+    ul { padding-left:1.1rem; }
+    li { margin:.5rem 0; }
+    .btn { display:inline-block; padding:.4rem .7rem; border-radius:.5rem; border:1px solid #d1d5db; text-decoration:none; }
+    .btn.primary { background:var(--accent); color:#fff; border-color:transparent; }
+    .muted { color:#6b7280; }
+    iframe { width:100%; height:520px; border:1px solid #e5e7eb; border-radius:10px; margin-top:1rem; }
+    nav { text-align:center; margin-top:1rem; }
+    nav a { margin:0 .5rem; text-decoration:none; color:#1f2937; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Papers</h1>
+    <p class="muted">All PDFs from the <code>pdfs/</code> folder, listed automatically.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="blogs.html">Blogs</a>
+      <a href="papers.html">Papers</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Available PDFs</h2>
+      <ul id="list"><li class="muted">Loading…</li></ul>
+
+      <h3>Preview</h3>
+      <iframe id="preview" src=""></iframe>
+    </div>
+  </main>
+
+  <script>
+    // Change these if you rename owner/repo/branch
+    const owner = "SamukthaV";
+    const repo  = "Math-For-All-Souls";
+    const branch = "main";
+    const api = `https://api.github.com/repos/${owner}/${repo}/contents/pdfs?ref=${branch}`;
+
+    const listEl = document.getElementById("list");
+    const preview = document.getElementById("preview");
+
+    fetch(api).then(r => r.json()).then(items => {
+      listEl.innerHTML = "";
+      const pdfs = (Array.isArray(items) ? items : []).filter(x => x.type === "file" && x.name.toLowerCase().endsWith(".pdf"));
+      if (pdfs.length === 0) {
+        listEl.innerHTML = '<li class="muted">No PDFs yet. Add files to the <code>pdfs/</code> folder.</li>';
+        return;
+      }
+      pdfs.forEach(file => {
+        const encoded = encodeURIComponent(file.name);  // handle spaces
+        const pageHref = `pdfs/${encoded}`;
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <strong>${file.name}</strong>
+          — <a class="btn" href="${pageHref}" target="_blank" rel="noopener">Open</a>
+          — <a class="btn primary" href="#" data-preview="${pageHref}">Preview</a>
+        `;
+        listEl.appendChild(li);
+      });
+      listEl.addEventListener("click", e => {
+        const a = e.target.closest("[data-preview]");
+        if (!a) return;
+        e.preventDefault();
+        const url = a.getAttribute("data-preview");
+        preview.src = url;
+        preview.scrollIntoView({behavior:"smooth"});
+      });
+    }).catch(err => {
+      listEl.innerHTML = `<li class="muted">Could not load list automatically. Add links manually in this file if needed.</li>`;
+      console.error(err);
+    });
+  </script>
+</body>
+</html>
