@@ -43,10 +43,64 @@
   </nav>
 
   <main>
-    <section class="card">
-      <h2>Hey Welcome</h2>
-      <p>You aspire to design intelligent systems, advance academic research, or simply<br>satisfy your intellectual curiosity, I invite you to embark on this journey of mathematical<br>discovery with me. Together, let us conquer the world of AI, one equation at a time.</p>
+    <section class="card welcome-card">
+      <h2>Hey, Welcome!</h2>
+      <p>
+        Whether you aspire to design intelligent systems, advance academic research, or simply<br>
+        satisfy your intellectual curiosity — I invite you to embark on this journey of mathematical<br>
+        discovery with me. Together, let us conquer the world of AI, one equation at a time.
+      </p>
     </section>
+
+    <style>
+      .welcome-card {
+        background: linear-gradient(135deg, #fdfbfb, #ebedee);
+        padding: 2rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        text-align: center;
+        font-family: 'Poppins', sans-serif;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      .welcome-card h2 {
+        font-size: 2.2rem;
+        color: #1f2937;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .welcome-card h2::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: -8px;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #6366f1, #ec4899);
+        border-radius: 2px;
+      }
+
+      .welcome-card p {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: #374151;
+        max-width: 700px;
+        margin: auto;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
 
     <section id="author" class="card section">
       <h2>From the Author — Samyuktha</h2>
