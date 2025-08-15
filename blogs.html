@@ -104,9 +104,11 @@ function niceDate(iso){
       const mins = readMins(textForReading);
 
       // Normalize hero to absolute URL
-      let heroAbs = "";
-      try { heroAbs = hero ? new URL(hero, url).href : ""; } catch(e){ heroAbs = ""; }
 
+      const base = new URL(url, location.href);   // e.g. https://.../blog/embedding_space.html
+      let heroAbs = "";
+      try { heroAbs = hero ? new URL(hero, base).href : ""; } catch(e){ heroAbs = ""; }
+      
       const tags = tagsStr ? tagsStr.split(",").map(s=>s.trim()).filter(Boolean) : [];
       items.push({title, dateISO, tags, hero: heroAbs, url, mins});
     }
