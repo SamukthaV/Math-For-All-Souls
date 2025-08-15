@@ -27,12 +27,10 @@
     code { background:#f3f4f6; padding:.1rem .3rem; border-radius:.25rem; }
     .section { margin-top:2rem; }
   </style>
-</head>
-<body>
-  <header class="hero-header">
+<header class="hero-header">
   <h1>Decoding the <span class="highlight">I</span> in <span class="highlight">AI</span></h1>
-  <p class="muted">
-    By <strong>Samyuktha</strong> — <span class="tagline">sharing the fruit of knowledge with everyone</span>
+  <p class="quote">“A duty which has become a desire will ultimately become a delight.”  
+    <span class="author">— George Gissing</span>
   </p>
 </header>
 
@@ -49,7 +47,7 @@
   .hero-header h1 {
     font-size: 2.8rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     color: #1f2937;
     letter-spacing: 1px;
   }
@@ -60,34 +58,24 @@
     -webkit-text-fill-color: transparent;
   }
 
-  .hero-header p {
+  .hero-header .quote {
     font-size: 1.2rem;
-    color: #6b7280;
-    margin-top: 0;
-  }
-
-  .hero-header .tagline {
     font-style: italic;
     color: #4b5563;
+    max-width: 700px;
+    margin: auto;
+    line-height: 1.6;
   }
 
-  /* Subtle animated underline for h1 */
-  .hero-header h1::after {
-    content: '';
+  .hero-header .author {
     display: block;
-    width: 80px;
-    height: 3px;
-    margin: 0.5rem auto 0;
-    background: linear-gradient(90deg, #6366f1, #ec4899);
-    border-radius: 3px;
-    animation: pulse 2s infinite alternate;
-  }
-
-  @keyframes pulse {
-    from { width: 80px; opacity: 0.7; }
-    to { width: 120px; opacity: 1; }
+    margin-top: 0.3rem;
+    font-size: 1rem;
+    font-style: normal;
+    color: #6b7280;
   }
 </style>
+
 
 
   <nav>
