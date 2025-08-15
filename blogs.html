@@ -25,11 +25,11 @@
   .card-body{padding:1rem 1rem 1.1rem}
   .title{margin:.2rem 0;font-weight:700;font-size:1.05rem}
   .meta{color:var(--muted);font-size:.9rem;margin-bottom:.5rem}
-  .summary{color:#374151;font-size:.95rem;min-height:3.6em}
   .badge{display:inline-block;margin-right:.35rem;margin-top:.35rem;padding:.15rem .5rem;border-radius:.5rem;background:#f3f4f6;color:#374151;font-size:.8rem}
-  .actions{margin-top:.75rem}
+  .actions{margin-top:.5rem}
   .btn{display:inline-block;padding:.45rem .75rem;border:1px solid #cbd5e1;border-radius:.6rem;text-decoration:none}
   .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  #empty{color:#6b7280}
   footer{text-align:center;color:var(--muted);margin:2rem 0 3rem}
 </style>
 </head>
@@ -47,13 +47,13 @@
 <main>
   <div class="controls">
     <div class="search">
-      <input id="q" type="search" placeholder="Search title, summary, or tags…" />
+      <input id="q" type="search" placeholder="Search title or tags…" />
     </div>
     <div class="tags" id="tagbar"></div>
   </div>
 
   <div class="grid" id="grid"></div>
-  <p id="empty" style="display:none;color:#6b7280">No posts match your filters.</p>
+  <p id="empty" style="display:none">No posts match your filters.</p>
 </main>
 
 <footer>© 2025 Math for All Souls — Samuktha</footer>
@@ -64,16 +64,10 @@ const owner  = "SamukthaV";
 const repo   = "Math-For-All-Souls";
 const branch = "main";
 
-/* === Utilities === */
 const apiList = `https://api.github.com/repos/${owner}/${repo}/contents/blog?ref=${branch}`;
 
 function words(text){ return (text||"").trim().split(/\s+/).filter(Boolean).length; }
 function readMins(text){ const w = words(text); return Math.max(1, Math.round(w/220)); } // 220 wpm
-function firstSentence(text){
-  const t = (text||"").replace(/\s+/g," ").trim();
-  const m = t.match(/(.{40,200}?[\.\!\?])\s/); // 1st sentence between 40-200 chars
-  return (m?m[1]:t).slice(0,220);
-}
 function uniq(arr){ return [...new Set(arr)].sort((a,b)=>a.localeCompare(b)); }
 function niceDate(iso){
   if(!iso) return "—";
@@ -81,7 +75,6 @@ function niceDate(iso){
   return isNaN(d) ? "—" : d.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"2-digit"});
 }
 
-/* === Load list of blog/*.html then fetch each file to extract metadata === */
 (async function init(){
   const grid = document.getElementById("grid");
   const empty = document.getElementById("empty");
@@ -106,24 +99,21 @@ function niceDate(iso){
       const dateISO = meta("post:date", "");
       const tagsStr = meta("post:tags","").trim();
       const hero    = meta("post:hero","") || doc.querySelector("article img, img")?.getAttribute("src") || "";
-      const summary = meta("post:summary","") || firstSentence(doc.body?.textContent || "");
 
-      // Reading time from the article text
+      // Reading time (from article text)
       const textForReading = doc.querySelector("article")?.textContent || doc.body?.textContent || "";
       const mins = readMins(textForReading);
 
-      // Normalize hero to an absolute URL
+      // Normalize hero to absolute URL
       let heroAbs = "";
       try { heroAbs = hero ? new URL(hero, url).href : ""; } catch(e){ heroAbs = ""; }
 
       const tags = tagsStr ? tagsStr.split(",").map(s=>s.trim()).filter(Boolean) : [];
-      items.push({title, dateISO, tags, hero: heroAbs, url, summary, mins});
+      items.push({title, dateISO, tags, hero: heroAbs, url, mins});
     }
-  } catch(e){
-    console.error(e);
-  }
+  } catch(e){ console.error(e); }
 
-  // Sort by date (desc), then title
+  // Sort by date desc, then title
   items.sort((a,b)=> (b.dateISO||"").localeCompare(a.dateISO||"") || a.title.localeCompare(b.title));
 
   // Tag bar
@@ -146,7 +136,6 @@ function niceDate(iso){
     const filtered = items.filter(p=>{
       const qmatch = !query ||
         p.title.toLowerCase().includes(query) ||
-        p.summary.toLowerCase().includes(query) ||
         p.tags.join(" ").toLowerCase().includes(query);
       const tagmatch = active.size===0 || p.tags.some(t=>active.has(t));
       return qmatch && tagmatch;
@@ -163,7 +152,6 @@ function niceDate(iso){
         <div class="card-body">
           <div class="title">${p.title}</div>
           <div class="meta">${niceDate(p.dateISO)} • ${p.mins} min read${p.tags.length?` • ${p.tags.join(", ")}`:""}</div>
-          <div class="summary">${p.summary}</div>
           <div class="actions"><a class="btn primary" href="${p.url}">Read</a></div>
           ${p.tags.map(t=>`<span class="badge">${t}</span>`).join("")}
         </div>
