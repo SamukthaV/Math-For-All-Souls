@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script defer data-domain="SamukthaV.github.io" src="https://plausible.io/js/script.js"></script>
+
+    <style>
+    .meta-bar { display:flex; gap:1rem; flex-wrap:wrap; align-items:center; margin:.75rem 0 1rem; color:#6b7280; font-size:.95rem }
+    .pill { display:inline-flex; align-items:center; gap:.35rem; background:#f3f4f6; border:1px solid #e5e7eb; border-radius:999px; padding:.2rem .6rem }
+    .pill b{ color:#111827 }
+    .like-btn { border:1px solid #d1d5db; background:#fff; border-radius:.6rem; padding:.35rem .7rem; cursor:pointer }
+    .like-btn.liked { background:#fde68a; border-color:#fbbf24 }
+    .sep { color:#d1d5db }
+    #comments { margin-top:1.25rem }
+  </style>
+
   <meta name="post:title" content="Delving Deeper into the Spaces of Embeddings">
   <meta name="post:date"  content="2025-08-15">
   <meta name="post:tags"  content="embeddings,NLP,math">
@@ -49,6 +61,12 @@
       <nav><a href="../index.html">Home</a> <a href="../blogs.html">Blogs</a> <a href="../papers.html">Papers</a></nav>
       <h1>Delving Deeper into the Spaces of Embeddings</h1>
       <p class="meta">By <strong>Samuktha</strong> • Math for All Souls</p>
+      <div class="meta-bar">
+      <span class="pill">👀 Views: <b id="pv">–</b></span>
+      <span class="pill">🧭 Unique: <b id="uv">–</b></span>
+      <button id="like" class="like-btn">👍 Like <span id="likes">0</span></button>
+    </div>
+   
     </div>
   </header>
 
@@ -105,7 +123,93 @@
       <div class="hr"></div>
       <p><em>Questions or suggestions? Write to <a href="mailto:mathforallsouls@gmail.com">mathforallsouls@gmail.com</a>.</em></p>
       <a class="back" href="../blogs.html">← Back to Blogs</a>
+      <hr class="hr">
+      <h2>Comments</h2>
+      <div id="comments">
+        <!-- Utterances embed (uses GitHub Issues on your repo). Ensure Issues are enabled. -->
+        <script src="https://utteranc.es/client.js"
+                repo="SamukthaV/Math-For-All-Souls"
+                issue-term="pathname"
+                label="💬 comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+        </script>
+      </div>
+
     </article>
   </main>
+<script>
+  /* ---------- CONFIG ---------- */
+  const NAMESPACE = "mathforallsouls";
+  const PAGE_KEY  = "blog_embeddings"; // change per-page if you copy to other posts
+  const COUNT_API = "https://api.countapi.xyz";
+
+  const pvKey = `${NAMESPACE}:${PAGE_KEY}:views`;
+  const uvKey = `${NAMESPACE}:${PAGE_KEY}:unique`;
+  const lkKey = `${NAMESPACE}:${PAGE_KEY}:likes`;
+
+  const seenFlag = `seen:${PAGE_KEY}`;
+  const likeFlag = `liked:${PAGE_KEY}`;
+
+  // Helpers
+  async function ensure(key){
+    try { await fetch(`${COUNT_API}/get/${key}`).then(r=>r.json()); }
+    catch(_){
+      // create with 0 if missing
+      await fetch(`${COUNT_API}/create?namespace=${encodeURIComponent(NAMESPACE)}&key=${encodeURIComponent(key.split(":").slice(1).join(":"))}&value=0`);
+    }
+  }
+  async function hit(key){
+    try { const r = await fetch(`${COUNT_API}/hit/${key}`); return r.json(); }
+    catch(e){ return { value: "–" }; }
+  }
+  async function get(key){
+    try { const r = await fetch(`${COUNT_API}/get/${key}`); return r.json(); }
+    catch(e){ return { value: "–" }; }
+  }
+  async function setIfMissing(key){
+    await ensure(key);
+    const data = await get(key);
+    if (typeof data.value !== "number") {
+      await fetch(`${COUNT_API}/set/${key}?value=0`);
+    }
+  }
+
+  (async function initCounters(){
+    // Make sure counters exist
+    await Promise.all([setIfMissing(pvKey), setIfMissing(uvKey), setIfMissing(lkKey)]);
+
+    // Page views: increment every load
+    const pv = await hit(pvKey);
+    document.getElementById("pv").textContent = pv.value ?? "–";
+
+    // Unique: increment only once per browser
+    if (!localStorage.getItem(seenFlag)) {
+      const uv = await hit(uvKey);
+      localStorage.setItem(seenFlag, "1");
+      document.getElementById("uv").textContent = uv.value ?? "–";
+    } else {
+      const uv = await get(uvKey);
+      document.getElementById("uv").textContent = uv.value ?? "–";
+    }
+
+    // Likes: initialize number and button state
+    const lk = await get(lkKey);
+    document.getElementById("likes").textContent = lk.value ?? 0;
+    const likeBtn = document.getElementById("like");
+    const liked = !!localStorage.getItem(likeFlag);
+    if (liked) likeBtn.classList.add("liked");
+
+    likeBtn.addEventListener("click", async ()=>{
+      if (localStorage.getItem(likeFlag)) return; // already liked
+      const next = await hit(lkKey);
+      document.getElementById("likes").textContent = next.value ?? "–";
+      localStorage.setItem(likeFlag, "1");
+      likeBtn.classList.add("liked");
+    });
+  })();
+</script>
+
 </body>
 </html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Blogs — Math for All Souls</title>
@@ -108,7 +109,7 @@ function niceDate(iso){
       const base = new URL(url, location.href);   // e.g. https://.../blog/embedding_space.html
       let heroAbs = "";
       try { heroAbs = hero ? new URL(hero, base).href : ""; } catch(e){ heroAbs = ""; }
-      
+
       const tags = tagsStr ? tagsStr.split(",").map(s=>s.trim()).filter(Boolean) : [];
       items.push({title, dateISO, tags, hero: heroAbs, url, mins});
     }
