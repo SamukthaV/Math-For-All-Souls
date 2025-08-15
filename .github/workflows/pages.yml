@@ -20,10 +20,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .    # deploy the repo root (index.html, pdfs/, etc.)
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
