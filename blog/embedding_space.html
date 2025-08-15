@@ -55,21 +55,29 @@
       <p>Different words, same intent. With semantic understanding, a search engine treats them as the same kind of information need.</p>
 
       <h2>What is an embedding?</h2>
-      <p>An <strong>embedding</strong> is a vector representation of a word or sentence. Think of each example as a vector $x \\in \\mathbb{R}^{N}$. For many models, $N=768$, so every token/sentence maps to a 768-dimensional point in real space.</p>
+      <p>Formally, an embedding is produced by a function
+         $\\varphi:\\mathcal{X}\\to\\mathbb{R}^{N}$. For a sentence $s$, its embedding is
+         $\\mathbf{x}=\\varphi(s)\\in\\mathbb{R}^{N}$. In many practical models, $N=768$,
+         i.e. $\\mathbf{x}\\in\\mathbb{R}^{768}$.</p>
 
-      <p>Because this is a Euclidean space, we can define a norm and the induced distance. A common similarity measure is the <em>cosine similarity</em>, which looks at the angle between two vectors. (For more on vector spaces and norms, see your article: <em>Looking More into Spaces, Subspaces, Norm — a review</em>.)</p>
+      <p>Because $\\mathbb{R}^{N}$ is a Euclidean space, we use the $\\ell_2$ norm
+         $\\lVert\\mathbf{x}\\rVert_2=\\big(\\sum_{i=1}^{N} x_i^2\\big)^{1/2}$ and define similarity
+         via the <em>cosine similarity</em>:
+         $$\\operatorname{cos\\_sim}(\\mathbf{x},\\mathbf{y})=
+           \\frac{\\mathbf{x}^{\\top}\\mathbf{y}}{\\lVert\\mathbf{x}\\rVert_2\\,\\lVert\\mathbf{y}\\rVert_2}.$$
+         Vectors with larger cosine similarity (smaller angle) are considered more semantically related.</p>
 
-      <p>The locations of embeddings in the vector space carry <em>semantic</em> relations: similar meanings lie nearer; different meanings lie farther apart.</p>
+      <p>The locations of embeddings in the vector space carry <em>semantic</em> relations:
+         similar meanings lie nearer; different meanings lie farther apart.</p>
 
-      <!-- FIGURE 1: semantic relations in R^2 -->
+      <!-- FIGURE: semantic relations in R^2 -->
       <figure>
+        <!-- adjust path if your folder is assets/blog/embeddings/ -->
         <img src="../assets/blog/embedding_space/hero.webp" alt="Points in 2D embedding space forming clusters for related words" />
         <figcaption>Fig. Depicting the semantic relation of embeddings in $\\mathbb{R}^2$.</figcaption>
       </figure>
 
       <p>As in the sketch above, words like <em>dog, puppy, canine, bite</em> cluster closely, while clusters such as <em>king, queen</em> and <em>jack, ace, spade</em> sit apart.</p>
-
-
 
       <h2>How are these embeddings generated?</h2>
       <p>Modern embeddings come from <strong>Transformers</strong>. They do not encode a word in isolation; attention layers let each token “see” other tokens in the sentence and capture context, so the same word can map to different vectors depending on usage.</p>
