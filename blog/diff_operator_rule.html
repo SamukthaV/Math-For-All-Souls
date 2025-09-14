@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Blog metadata used by blogs.html -->
-  <meta name="post:title" content="Differential Equations: From Rules of Change to Solutions">
-  <meta name="post:date"  content="2025-09-14">
-  <meta name="post:tags"  content="differential equations,math,modeling">
-  <meta name="post:hero"  content="../assets/blog/diff-eq/hero.jpg">
+  <!-- Card metadata for blogs.html -->
+  <meta name="post:title" content="Differential Operator → Rule of Change" />
+  <meta name="post:date"  content="2025-09-14" />
+  <meta name="post:tags"  content="differential equations,calculus,math" />
+  <meta name="post:hero"  content="../assets/blog/diff-operator/hero.jpg" />
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Differential Equations: From Rules of Change to Solutions — Math for All Souls</title>
-  <meta name="description" content="A gentle primer on differential equations: what they are, how general and particular solutions relate, and why they’re the language of change." />
+  <title>Differential Operator → Rule of Change — Math for All Souls</title>
+  <meta name="description" content="A conversational primer: differential operators, general vs particular solutions, and what singular solutions really are." />
 
   <!-- MathJax -->
   <script>
@@ -49,7 +49,7 @@
   <header>
     <div class="wrap">
       <nav><a href="../index.html">Home</a> <a href="../blogs.html">Blogs</a> <a href="../papers.html">Papers</a></nav>
-      <h1>Differential Equations: From Rules of Change to Solutions</h1>
+      <h1>Differential Operator → Rule of Change</h1>
       <p class="meta">By <strong>Samuktha</strong> • Math for All Souls</p>
       <div class="meta-bar">
         <span class="pill">👀 Views: <b id="pv">–</b></span>
@@ -62,52 +62,52 @@
   <main>
     <article>
       <figure>
-        <!-- Will show once you add assets/blog/diff-eq/hero.jpg -->
-        <img src="../assets/blog/diff-eq/hero.jpg" alt="Differential equations — rules of change illustrated">
-        <figcaption>The language of change: differential equations describe families of functions.</figcaption>
+        <!-- Add this file later: assets/blog/diff-operator/hero.jpg -->
+        <img src="../assets/blog/diff-operator/hero.jpg" alt="Differential operator mapping functions to functions">
+        <figcaption>Operators map functions to functions — a DE is a rule of change.</figcaption>
       </figure>
 
-      <blockquote><em>Solving a DE describes a subset (a family) of functions; choosing initial data picks one member — a particular solution.</em></blockquote>
-
-      <h2>What is a differential equation?</h2>
-      <p>A (scalar) ODE of order $n$ relates a function $y(x)$ to its derivatives:
+      <h2>1) Differential operator, in human words</h2>
+      <p>Think of the derivative as an operator. Let \(D=\tfrac{d}{dx}\). A linear differential operator such as
         \[
-          F\!\big(x,y,y',\dots,y^{(n)}\big)=0.
+          L=D^{2}+3D+2
         \]
-        The order is the highest derivative present. If $F$ is linear in $y,\dots,y^{(n)}$, we call it a linear ODE.</p>
+        takes a function \(f\) and spits out another function: \(L[f]=f''+3f'+2f\).
+        It’s like a matrix mapping one vector to another — except here we’re in <em>function</em> space.
+        Solving a DE like \(L[y]=g\) is the function-space analogue of solving a linear system.</p>
 
-      <h2>General vs particular solutions</h2>
-      <p>The solution set is typically a <em>family</em> with $n$ free constants:
+      <blockquote><strong>Bottom line:</strong> a differential equation encodes a rule for how the system changes.
+        (Example: Newton’s law \(m\,y''=F(y,t)\).)</blockquote>
+
+      <h2>2) “We wrote a DE — what does it mean to solve it?”</h2>
+      <p>A DE doesn’t hand you \(y(t)\) directly; it tells you how \(y\) must change. Take the toy rule
         \[
-          y(x)=y(x; C_1,\dots,C_n).
+          y'(t)=2\,y(t).
         \]
-        Supplying $n$ conditions (e.g., initial values $y(x_0),y'(x_0),\dots,y^{(n-1)}(x_0)$) selects a <em>particular</em> member.</p>
+        It says: the rate of growth of \(y\) is twice its current value. All functions that obey this rule form the
+        <strong>general solution</strong>:
+        \[
+          y(t)=C\,e^{2t},
+        \]
+        a whole family parametrised by the constant \(C\).</p>
 
-      <h3>Example: exponential growth/decay</h3>
-      <p>$y'=ky$ has general solution $y(x)=C\,e^{kx}$. With $y(0)=y_0$ we obtain the particular solution $y(x)=y_0 e^{kx}$.</p>
+      <p>Give one extra fact — say \(y(0)=y_{0}\) — and you pick out a single member:
+        \[
+          y(t)=y_{0}\,e^{2t}.
+        \]
+        That’s the <strong>particular solution</strong>. We care about the general solution because it’s the complete
+        catalogue of functions consistent with the rule of change; initial/boundary data just choose which one reality follows.</p>
 
-      <h2>DEs as “rules of change”</h2>
-      <p>A DE is often a compact statement of physics or dynamics (e.g., Newton’s second law $m y''=F$). In modeling, we write down the <em>rule of change</em> and then determine the family it implies.</p>
-
-      <figure>
-        <!-- Your handwritten sheet; save as assets/blog/diff-eq/notes.jpg -->
-        <img src="../assets/blog/diff-eq/notes.jpg" alt="Handwritten notes on DEs: general vs particular solutions">
-        <figcaption>Your notes: the space of all functions, the DE-selected subset, and picking a particular solution.</figcaption>
-      </figure>
-
-      <h2>Context & extensions</h2>
-      <ul>
-        <li><strong>Linear first-order:</strong> $y'+p(x)y=q(x)$ solved by an integrating factor.</li>
-        <li><strong>Second-order linear:</strong> $a y''+b y'+c y=f(x)$ — characteristic equation / variation of parameters.</li>
-        <li><strong>Systems:</strong> $\\mathbf{x}'=A\\mathbf{x}$ with solution $\\mathbf{x}(t)=e^{At}\\mathbf{x}_0$.</li>
-        <li><strong>Stochastic DEs:</strong> dynamics with random forcing (e.g., Brownian motion) $\\mathrm{d}X_t = f(X_t,t)\\,\\mathrm{d}t + g(X_t,t)\\,\\mathrm{d}W_t$.</li>
-      </ul>
+      <h2>3) A word on <em>singular solutions</em></h2>
+      <p>Sometimes there’s a solution that isn’t inside the usual family \(y(\cdot;C)\).
+         That’s a <strong>singular solution</strong> — often appearing as the envelope/limit of the family
+         (a classic case is Clairaut’s equation). It’s a special curve that all family members just “touch”.</p>
 
       <div class="hr"></div>
       <p><em>Questions or suggestions? Write to <a href="mailto:mathforallsouls@gmail.com">mathforallsouls@gmail.com</a>.</em></p>
+
       <h2>Comments</h2>
       <div id="comments">
-        <!-- Utterances comment widget (uses GitHub Issues). Ensure Issues are enabled in the repo. -->
         <script src="https://utteranc.es/client.js"
                 repo="SamukthaV/Math-For-All-Souls"
                 issue-term="pathname"
@@ -125,7 +125,7 @@
   <!-- Views / Unique / Likes (CountAPI + localStorage) -->
   <script>
     const NAMESPACE = "mathforallsouls";
-    const PAGE_KEY  = "blog_diff_eq_intro";
+    const PAGE_KEY  = "blog_diff_operator_rule";
     const COUNT_API = "https://api.countapi.xyz";
     const pvKey = `${NAMESPACE}:${PAGE_KEY}:views`;
     const uvKey = `${NAMESPACE}:${PAGE_KEY}:unique`;
