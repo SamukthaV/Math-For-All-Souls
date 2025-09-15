@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Card metadata for blogs.html -->
-  <meta name="post:title" content="Differential Operator → Rule of Change" />
-  <meta name="post:date"  content="2025-09-14" />
-  <meta name="post:tags"  content="differential equations,calculus,math" />
-  <meta name="post:hero"  content="../assets/blog/diff-operator/hero.jpg" />
+  <!-- Metadata used by blogs.html for the card -->
+  <meta name="post:title" content="Differential Equations: Rules of Change, Solutions, and Singular Cases">
+  <meta name="post:date"  content="2025-09-14">
+  <meta name="post:tags"  content="differential equations,calculus,modeling,math">
+  <meta name="post:hero"  content="../assets/blog/de-rule-of-change/hero.jpg">
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Differential Operator → Rule of Change — Math for All Souls</title>
-  <meta name="description" content="A conversational primer: differential operators, general vs particular solutions, and what singular solutions really are." />
+  <title>Differential Equations — Rules of Change, Solutions, and Singular Cases</title>
+  <meta name="description" content="A conversational primer: DEs carve out subsets of the space of all functions, why general vs particular solutions matter, and where singular solutions come from." />
 
   <!-- MathJax -->
   <script>
@@ -37,7 +37,7 @@
     a.back{display:inline-block;margin:1rem 0}
     code,pre{background:#f3f4f6;border-radius:6px}
     pre{padding:1rem;overflow:auto}
-    /* meta bar / likes */
+    /* tiny meta bar / likes */
     .meta-bar { display:flex; gap:1rem; flex-wrap:wrap; align-items:center; margin:.75rem 0 1rem; color:#6b7280; font-size:.95rem }
     .pill { display:inline-flex; align-items:center; gap:.35rem; background:#f3f4f6; border:1px solid #e5e7eb; border-radius:999px; padding:.2rem .6rem }
     .pill b{ color:#111827 }
@@ -49,7 +49,7 @@
   <header>
     <div class="wrap">
       <nav><a href="../index.html">Home</a> <a href="../blogs.html">Blogs</a> <a href="../papers.html">Papers</a></nav>
-      <h1>Differential Operator → Rule of Change</h1>
+      <h1>Differential Equations: Rules of Change, Solutions, and Singular Cases</h1>
       <p class="meta">By <strong>Samuktha</strong> • Math for All Souls</p>
       <div class="meta-bar">
         <span class="pill">👀 Views: <b id="pv">–</b></span>
@@ -62,52 +62,73 @@
   <main>
     <article>
       <figure>
-        <!-- Add this file later: assets/blog/diff-operator/hero.jpg -->
-        <img src="../assets/blog/diff-operator/hero.jpg" alt="Differential operator mapping functions to functions">
-        <figcaption>Operators map functions to functions — a DE is a rule of change.</figcaption>
+        <img src="../assets/blog/de-rule-of-change/hero.jpg" alt="Differential equations carve out a subset inside the space of all functions" />
+        <figcaption>Think of DEs as carving out a meaningful subset of all possible functions.</figcaption>
       </figure>
 
-      <h2>1) Differential operator, in human words</h2>
-      <p>Think of the derivative as an operator. Let \(D=\tfrac{d}{dx}\). A linear differential operator such as
-        \[
-          L=D^{2}+3D+2
-        \]
-        takes a function \(f\) and spits out another function: \(L[f]=f''+3f'+2f\).
-        It’s like a matrix mapping one vector to another — except here we’re in <em>function</em> space.
-        Solving a DE like \(L[y]=g\) is the function-space analogue of solving a linear system.</p>
+      <h2>F — the space of all functions</h2>
+      <p>Picture a huge space $\\mathcal{F}$ containing every function you could imagine. A differential equation (DE) picks out a <em>subset</em> of $\\mathcal{F}$ — the functions that obey a certain rule.</p>
 
-      <blockquote><strong>Bottom line:</strong> a differential equation encodes a rule for how the system changes.
-        (Example: Newton’s law \(m\,y''=F(y,t)\).)</blockquote>
+      <figure>
+        <img src="../assets/blog/de-rule-of-change/diagram1.png" alt="F space of all functions with a shaded subset carved out by a DE">
+        <figcaption>Diagram 1: $\\mathcal{F}$ — space of all functions, with a shaded subset selected by a DE.</figcaption>
+      </figure>
 
-      <h2>2) “We wrote a DE — what does it mean to solve it?”</h2>
-      <p>A DE doesn’t hand you \(y(t)\) directly; it tells you how \(y\) must change. Take the toy rule
-        \[
-          y'(t)=2\,y(t).
-        \]
-        It says: the rate of growth of \(y\) is twice its current value. All functions that obey this rule form the
-        <strong>general solution</strong>:
-        \[
-          y(t)=C\,e^{2t},
-        \]
-        a whole family parametrised by the constant \(C\)</p>
+      <p><strong>A DE carves out that subset.</strong> Solving the DE means <em>describing that subset</em>:</p>
+      <ul>
+        <li><strong>General solution (parameterized)</strong> = the whole subset.</li>
+        <li><strong>Particular solution</strong> = one element of that subset (picked by initial/boundary data).</li>
+      </ul>
 
-      <p>Give one extra fact — say \(y(0)=y_{0}\) — and you pick out a single member:
-        \[
-          y(t)=y_{0}\,e^{2t}.
-        \]
-        That’s the <strong>particular solution</strong>. We care about the general solution because it’s the complete
-        catalogue of functions consistent with the rule of change; initial/boundary data just choose which one reality follows.</p>
+      <h2>Differential operators</h2>
+      <p>Think of an operator that maps one function to another. For example, let $D=\\dfrac{d}{dx}$ and
+        \\[
+          L \\;=\\; \\frac{d^{2}}{dx^{2}} \\; + \\; 3\\,\\frac{d}{dx} \\; + \\; 2.
+        \\]
+        These operators send $f$ to $Df$ or $Lf$, just like a matrix sends a vector to another vector.
+        So, solving a DE is like solving a linear system — but in <em>function space</em>.</p>
 
-      <h2>3) A word on <em>singular solutions</em></h2>
-      <p>Sometimes there’s a solution that isn’t inside the usual family \(y(\cdot;C)\).
-         That’s a <strong>singular solution</strong> — often appearing as the envelope/limit of the family
-         (a classic case is Clairaut’s equation). It’s a special curve that all family members just “touch”.</p>
+      <figure>
+        <img src="../assets/blog/de-rule-of-change/diagram2.png" alt="Operator mapping sketch f1 -> D f2">
+        <figcaption>Diagram 2: A sketch of an operator mapping functions (e.g., $f\\mapsto Df$).</figcaption>
+      </figure>
+
+      <h2>What a DE really does</h2>
+      <p><strong>DE = rule of the system.</strong> A classic physics rule is Newton’s second law:
+        \\[
+          m\\,y''(t) = F\\big(y(t),t\\big),
+        \\]
+        which says “acceleration $y''$ scales with applied force.” Most dynamical systems we care about can be modeled by such rules.</p>
+
+      <h3>What does it mean to solve a DE?</h3>
+      <p>Suppose our rule is
+        \\[
+          y'(t)=2y(t)\\quad\\text{(“rate of growth is twice the current value”).}
+        \\]
+        This rule doesn’t give $y(t)$ directly. Solving means: find <em>every</em> $y$ that satisfies it for all $t$.</p>
+
+      <p>For this example, the <strong>general solution</strong> is
+        \\[
+          y(t)=C\\,e^{2t},
+        \\]
+        a whole family indexed by the constant $C$. For an $n$th-order DE, the general solution typically carries $n$ free constants. Give me an initial condition (say $y(0)=y_0$) and you get the <strong>particular solution</strong> $y(t)=y_0e^{2t}$ — one member of that family.</p>
+
+      <blockquote><strong>Why is the general solution important?</strong> It’s the complete catalog of functions consistent with the rule of change. Initial/boundary data simply pick which one reality follows.</blockquote>
+
+      <h2>Where do singular solutions come from?</h2>
+      <p>Sometimes there’s a solution that <em>isn’t</em> inside the usual family $y(\\cdot;C)$. These are <strong>singular solutions</strong>. They’re often the <em>envelope</em> or limiting boundary of that family — special cases the parameterized form can’t reach.</p>
+
+      <figure>
+        <img src="../assets/blog/de-rule-of-change/clairaut.png" alt="Clairaut’s equation illustration showing family and envelope">
+        <figcaption>Clairaut’s equation provides a clean example: a family of straight lines with a curved envelope that’s itself a solution.</figcaption>
+      </figure>
 
       <div class="hr"></div>
       <p><em>Questions or suggestions? Write to <a href="mailto:mathforallsouls@gmail.com">mathforallsouls@gmail.com</a>.</em></p>
 
       <h2>Comments</h2>
       <div id="comments">
+        <!-- Utterances comment widget (GitHub Issues). Ensure Issues are enabled in your repo. -->
         <script src="https://utteranc.es/client.js"
                 repo="SamukthaV/Math-For-All-Souls"
                 issue-term="pathname"
@@ -125,7 +146,7 @@
   <!-- Views / Unique / Likes (CountAPI + localStorage) -->
   <script>
     const NAMESPACE = "mathforallsouls";
-    const PAGE_KEY  = "blog_diff_operator_rule";
+    const PAGE_KEY  = "blog_de_rule_of_change";
     const COUNT_API = "https://api.countapi.xyz";
     const pvKey = `${NAMESPACE}:${PAGE_KEY}:views`;
     const uvKey = `${NAMESPACE}:${PAGE_KEY}:unique`;
