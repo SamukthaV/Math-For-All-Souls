@@ -1,3 +1,8 @@
+---
+title: Papers — Math for All Souls
+layout: null
+---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,16 +30,33 @@
   <header>
     <h1>Papers</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="blogs.html">Blogs</a>
-      <a href="papers.html">Papers</a>
+      <a href="{{ 'index.html' | relative_url }}">Home</a>
+      <a href="{{ 'blogs.html' | relative_url }}">Blogs</a>
+      <a href="{{ 'papers.html' | relative_url }}">Papers</a>
     </nav>
   </header>
 
   <main>
     <div class="card">
       <h2>Available PDFs</h2>
-      <ul id="list"><li class="muted">Loading…</li></ul>
+
+      <ul id="list">
+        {% assign pdfs = site.static_files
+           | where: "extname", ".pdf"
+           | where_exp: "f", "f.path contains '/pdfs/'"
+           | sort: "name" %}
+        {% if pdfs.size == 0 %}
+          <li class="muted">No PDFs yet. Add files to the <code>pdfs/</code> folder.</li>
+        {% else %}
+          {% for f in pdfs %}
+            <li>
+              <strong>{{ f.name }}</strong>
+              — <a class="btn" href="{{ f.path | relative_url }}" target="_blank" rel="noopener">Open</a>
+              — <a class="btn primary" href="#" data-preview="{{ f.path | relative_url }}">Preview</a>
+            </li>
+          {% endfor %}
+        {% endif %}
+      </ul>
 
       <h3>Preview</h3>
       <iframe id="preview" src=""></iframe>
@@ -42,44 +64,16 @@
   </main>
 
   <script>
-    // Change these if you rename owner/repo/branch
-    const owner = "SamukthaV";
-    const repo  = "Math-For-All-Souls";
-    const branch = "main";
-    const api = `https://api.github.com/repos/${owner}/${repo}/contents/pdfs?ref=${branch}`;
-
+    // Only handles clicking "Preview" — the list is rendered by Jekyll.
     const listEl = document.getElementById("list");
     const preview = document.getElementById("preview");
-
-    fetch(api).then(r => r.json()).then(items => {
-      listEl.innerHTML = "";
-      const pdfs = (Array.isArray(items) ? items : []).filter(x => x.type === "file" && x.name.toLowerCase().endsWith(".pdf"));
-      if (pdfs.length === 0) {
-        listEl.innerHTML = '<li class="muted">No PDFs yet. Add files to the <code>pdfs/</code> folder.</li>';
-        return;
-      }
-      pdfs.forEach(file => {
-        const encoded = encodeURIComponent(file.name);  // handle spaces
-        const pageHref = `pdfs/${encoded}`;
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <strong>${file.name}</strong>
-          — <a class="btn" href="${pageHref}" target="_blank" rel="noopener">Open</a>
-          — <a class="btn primary" href="#" data-preview="${pageHref}">Preview</a>
-        `;
-        listEl.appendChild(li);
-      });
-      listEl.addEventListener("click", e => {
-        const a = e.target.closest("[data-preview]");
-        if (!a) return;
-        e.preventDefault();
-        const url = a.getAttribute("data-preview");
-        preview.src = url;
-        preview.scrollIntoView({behavior:"smooth"});
-      });
-    }).catch(err => {
-      listEl.innerHTML = `<li class="muted">Could not load list automatically. Add links manually in this file if needed.</li>`;
-      console.error(err);
+    listEl.addEventListener("click", e => {
+      const a = e.target.closest("[data-preview]");
+      if (!a) return;
+      e.preventDefault();
+      const url = a.getAttribute("data-preview");
+      preview.src = url;
+      preview.scrollIntoView({behavior:"smooth"});
     });
   </script>
 </body>
